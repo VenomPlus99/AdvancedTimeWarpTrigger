@@ -1,0 +1,29 @@
+{
+	"geode": "4.9.0",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "v99.advanced-timewarp-trigger",
+	"name": "Advanced TimeWarp Trigger",
+	"version": "v1.0.0",
+	"developer": "V99",
+	"description": "Smooth timewarps with easing effects",
+    "resources": {
+        "sprites": [
+            "resources/adv-timewarp.png"
+        ]
+    },
+	"tags": [
+		"editor",
+		"enhancement",
+		"offline",
+		"gameplay",
+		"utility"
+	],
+	"links": {
+		"source": "https://github.com/VenomPlus99"
+	}
+}
