@@ -145,7 +145,8 @@ class $modify(MyEditorUI, EditorUI)
 				auto helpButton = CCMenuItemSpriteExtra::create(
 					helpSprite, this, menu_selector(TimeWarpPopup::onInfoClicked));
 
-				auto helpMenu = CCMenu::create(helpButton, nullptr);
+				// auto helpMenu = CCMenu::create(helpButton, nullptr);
+				auto helpMenu = CCMenu::createWithItem(helpButton);
 				m_mainLayer->addChildAtPosition(helpMenu, Anchor::TopRight, {-15.f, -15.f});
 
 				// FROM section (left)
@@ -233,7 +234,12 @@ class $modify(MyEditorUI, EditorUI)
 					menu_selector(TimeWarpPopup::onRightEasingPressed));
 
 				// Wrap in a CCMenu
-				auto easingMenu = CCMenu::create(leftEasingButton, rightEasingButton, nullptr);
+				// auto easingMenu = CCMenu::create(leftEasingButton, rightEasingButton, nullptr);
+				auto easingArr = CCArray::create();
+				easingArr->addObject(leftEasingButton);
+				easingArr->addObject(rightEasingButton);
+				auto easingMenu = CCMenu::createWithArray(easingArr);
+
 				easingMenu->setPosition({0.f, -20.f});
 				easingRow->addChild(easingMenu);
 
@@ -264,18 +270,9 @@ class $modify(MyEditorUI, EditorUI)
 				auto addBtn = [&](int tag, const char *sprite, bool disabled)
 				{
 					auto spr = CCSprite::createWithSpriteFrameName(sprite);
-					CCMenuItemSpriteExtra *btn;
+					CCMenuItemSpriteExtra *btn = CCMenuItemSpriteExtra::create(spr, this, menu_selector(TimeWarpPopup::onSpeedChanged));
 
-					if (disabled)
-					{
-						auto gray = CCSpriteGrayscale::createWithSpriteFrameName(sprite);
-						btn = CCMenuItemSpriteExtra::create(gray, this, menu_selector(TimeWarpPopup::onSpeedChanged));
-					}
-					else
-					{
-						btn = CCMenuItemSpriteExtra::create(spr, this, menu_selector(TimeWarpPopup::onSpeedChanged));
-					}
-
+					disabled ? ButtonUtils::enableButton(btn, false, true) : ButtonUtils::enableButton(btn, true, true);
 					btn->setTag(tag);
 					speedMenu->addChild(btn);
 					btn->setScale(0.2f);
@@ -396,9 +393,7 @@ class $modify(MyEditorUI, EditorUI)
 
 			void toggleButtonVisually(bool isEnabled, CCMenuItemSpriteExtra *btn)
 			{
-				auto sprite = dynamic_cast<CCSprite *>(btn->getNormalImage());
-				auto colored = CCSprite::createWithSpriteFrame(sprite->displayFrame());
-				btn->setNormalImage(colored);
+				isEnabled ? ButtonUtils::enableButton(btn, true, true) : ButtonUtils::enableButton(btn, false, true);
 			}
 
 			void onReduceStepsToggled(CCObject *sender)

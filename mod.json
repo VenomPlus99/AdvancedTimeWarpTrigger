@@ -8,7 +8,7 @@
 	},
 	"id": "v99.advanced-timewarp-trigger",
 	"name": "Advanced TimeWarp Trigger",
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"developer": "V99",
 	"description": "Smooth timewarps with easing effects",
     "resources": {

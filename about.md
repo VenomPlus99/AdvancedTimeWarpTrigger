@@ -4,6 +4,8 @@ Advanced TimeWarp Trigger enhances the standard timewarp functionality in Geomet
 
 The mod supports both linear transitions and the built-in easing equations already present in Geometry Dash, giving creators precise control over how timewarp effects accelerate or decelerate throughout a level.
 
+The Advanced TimeWarp Trigger can be found in the Edit tab, near the "Warp" button (its exact position may vary depending on which other mods you have installed).
+
 I had to create this mod because Rob didn't include this feature in the TimeWarp trigger.
 
 Note:
