@@ -1,6 +1,5 @@
 #include "../include/ButtonUtils.hpp"
-#include <Geode/modify/EditorUI.hpp>
-#include <Geode/modify/EditButtonBar.hpp>
+// #include <Geode/modify/EditButtonBar.hpp>
 #include <Geode/ui/BasedButtonSprite.hpp>
 #include <Geode/binding/GameToolbox.hpp>
 #include <Geode/binding/Slider.hpp>
@@ -10,6 +9,7 @@
 #include <algorithm>
 
 using namespace geode::prelude;
+#include <Geode/modify/EditorUI.hpp>
 
 class $modify(MyEditorUI, EditorUI)
 {
@@ -20,45 +20,6 @@ class $modify(MyEditorUI, EditorUI)
 		EditButtonBar *editButtonBar = nullptr;
 		int m_lastSelectedIndex = -1;
 	};
-
-	bool init(LevelEditorLayer *editor)
-	{
-		if (!EditorUI::init(editor))
-			return false;
-
-		auto editBar = this->getChildByIDRecursive("edit-tab-bar");
-		if (!editBar)
-			return true;
-
-		m_fields->editButtonBar = static_cast<EditButtonBar *>(editBar);
-		if (!m_fields->editButtonBar)
-			return true;
-
-		auto icon = CCSprite::create("adv-timewarp.png"_spr);
-		if (!icon)
-			return true;
-
-		auto btnSprite = ButtonSprite::create(
-			icon,
-			32,
-			0,
-			32,
-			0.6f,
-			true,
-			"GJ_button_01.png",
-			false);
-
-		m_fields->button = CCMenuItemSpriteExtra::create(
-			btnSprite,
-			this,
-			menu_selector(MyEditorUI::onAdvTimeWarpPressed));
-
-		m_fields->button->setID("adv-timewarp-button");
-		m_fields->editButtonBar->m_buttonArray->insertObject(m_fields->button, 32);
-		m_fields->editButtonBar->updateLayout();
-
-		return true;
-	}
 
 	void onAdvTimeWarpPressed(CCObject *sender)
 	{
@@ -409,11 +370,11 @@ class $modify(MyEditorUI, EditorUI)
 
 				// Disable all buttons
 				for (int i = 0; i <= 4; i++)
-					if (auto btn = dynamic_cast<CCMenuItemSpriteExtra *>(speedMenu->getChildByTag(i)))
+					if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra *>(speedMenu->getChildByTag(i)))
 						toggleButtonVisually(false, btn);
 
 				// Re-enable the selected button
-				if (auto btn = dynamic_cast<CCMenuItemSpriteExtra *>(speedMenu->getChildByTag(m_speed)))
+				if (auto btn = typeinfo_cast<CCMenuItemSpriteExtra *>(speedMenu->getChildByTag(m_speed)))
 					toggleButtonVisually(true, btn);
 			}
 
@@ -441,16 +402,9 @@ class $modify(MyEditorUI, EditorUI)
 				if (text.empty())
 					return defaultValue;
 
-				try
-				{
-					std::string trimmed = text;
-					trimmed.erase(std::remove_if(trimmed.begin(), trimmed.end(), ::isspace), trimmed.end());
-					return std::stof(trimmed);
-				}
-				catch (const std::exception &)
-				{
-					return defaultValue;
-				}
+				std::string trimmed = text;
+				trimmed.erase(std::remove_if(trimmed.begin(), trimmed.end(), ::isspace), trimmed.end());
+				return geode::utils::numFromString<float>(trimmed).unwrapOr(1.f);
 			}
 
 			void onClosePopup()
@@ -627,5 +581,28 @@ class $modify(MyEditorUI, EditorUI)
 		};
 
 		TimeWarpPopup::create(this->m_editorLayer, this)->show();
+	}
+
+	void createMoveMenu()
+	{
+		EditorUI::createMoveMenu();
+		if (!m_editButtonBar || !m_editButtonBar->m_buttonArray)
+			return;
+
+		auto *icon = CCSprite::create("adv-timewarp.png"_spr);
+		if (!icon)
+			return;
+
+		auto *btnSprite = ButtonSprite::create(icon, 32, 0, 32, 0.6f, true, "GJ_button_01.png", false);
+
+		auto *btn = CCMenuItemSpriteExtra::create(btnSprite, this, menu_selector(MyEditorUI::onAdvTimeWarpPressed));
+		btn->setID("adv-timewarp-button");
+
+		m_editButtonBar->m_buttonArray->addObject(btn);
+
+		// 7. Reload layout
+		auto rows = GameManager::sharedState()->getIntGameVariable("0049");
+		auto cols = GameManager::sharedState()->getIntGameVariable("0050");
+		m_editButtonBar->reloadItems(rows, cols);
 	}
 };

@@ -8,7 +8,7 @@
 	},
 	"id": "v99.advanced-timewarp-trigger",
 	"name": "Advanced TimeWarp Trigger",
-	"version": "v1.0.2",
+	"version": "v1.0.3",
 	"developer": "V99",
 	"description": "Smooth timewarps with easing effects",
     "resources": {
@@ -25,5 +25,8 @@
 	],
 	"links": {
 		"source": "https://github.com/VenomPlus99"
+	},
+	"dependencies": {
+		"geode.node-ids": "*"
 	}
 }

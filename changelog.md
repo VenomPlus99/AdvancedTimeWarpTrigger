@@ -1,3 +1,7 @@
+# 1.0.3
+
+- Fixed a bug where the game crashes upon entering the editor (Android)
+
 # 1.0.2
 
 - Bugfix
