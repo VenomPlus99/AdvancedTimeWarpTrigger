@@ -507,6 +507,7 @@ class $modify(MyEditorUI, EditorUI)
 					if (trigger)
 					{
 						trigger->m_timeWarpTimeMod = roundedTimeMod;
+						trigger->m_shouldPreview = true;
 						createdTriggers->addObject(trigger);
 					}
 				}
@@ -600,7 +601,7 @@ class $modify(MyEditorUI, EditorUI)
 
 		m_editButtonBar->m_buttonArray->addObject(btn);
 
-		// 7. Reload layout
+		// Reload layout
 		auto rows = GameManager::sharedState()->getIntGameVariable("0049");
 		auto cols = GameManager::sharedState()->getIntGameVariable("0050");
 		m_editButtonBar->reloadItems(rows, cols);

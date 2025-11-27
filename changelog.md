@@ -1,3 +1,7 @@
+# 1.0.5
+
+- Fixed a bug where Preview would be disabled by default on the TimeWarp triggers.
+
 # 1.0.4
 
 - Fixed a bug where the game crashes upon entering the editor (Android)
