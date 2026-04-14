@@ -1,3 +1,7 @@
+# 1.0.6
+
+- Support for 2.2081
+
 # 1.0.5
 
 - Fixed a bug where Preview would be disabled by default on the TimeWarp triggers.

@@ -1,5 +1,4 @@
 #include "../include/ButtonUtils.hpp"
-// #include <Geode/modify/EditButtonBar.hpp>
 #include <Geode/ui/BasedButtonSprite.hpp>
 #include <Geode/binding/GameToolbox.hpp>
 #include <Geode/binding/Slider.hpp>
@@ -23,7 +22,7 @@ class $modify(MyEditorUI, EditorUI)
 
 	void onAdvTimeWarpPressed(CCObject *sender)
 	{
-		class TimeWarpPopup : public geode::Popup<>
+		class TimeWarpPopup : public geode::Popup
 		{
 		protected:
 			TextInput *m_fromInput = nullptr;
@@ -90,8 +89,10 @@ class $modify(MyEditorUI, EditorUI)
 				return row;
 			}
 
-			bool setup() override
+			bool init()
 			{
+				if (!Popup::init(340.f, 260.f))
+					return false;
 
 				this->setTitle("Advanced TimeWarp");
 				this->m_closeBtn->removeMeAndCleanup();
@@ -569,7 +570,7 @@ class $modify(MyEditorUI, EditorUI)
 			static TimeWarpPopup *create(LevelEditorLayer *editor, EditorUI *owner)
 			{
 				auto ret = new TimeWarpPopup();
-				if (ret->initAnchored(340.f, 260.f))
+				if (ret->init())
 				{
 					ret->m_editor = editor;
 					ret->m_owner = owner;
